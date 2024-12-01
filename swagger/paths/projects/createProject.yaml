@@ -1,0 +1,88 @@
+tags:
+  - Projects
+summary: Create a new project
+operationId: createProjectService
+description: Create a new project
+
+security:
+  - bearerAuth: []
+
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - address
+          - projectType
+          - projectArea
+        properties:
+          address:
+            type: object
+            format: object
+            example: 'Kyiv obl, Obukhiv rn, g.Obukhov, str. Kyivskaya 128'
+          projectType:
+            type: string
+            format: email
+            example: 'bosini@example.com'
+          projectArea:
+            type: string
+            format: password
+            example: 'securepassword'
+responses:
+  '201':
+    description: Successfully create project!
+    content:
+      application/json:
+        schema:
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully create project!
+            data:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    userID:
+                      type: string
+                      description: The user's ID.
+                      example: '60d0fe4f5311236168a109ca'
+                    name:
+                      type: string
+                      description: The user's name.
+                      example: 'John Doe'
+                    email:
+                      type: string
+                      description: The user's email.
+                      example: 'john.doe@example.com'
+            access_token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '409':
+    description: Email already in use!
+    content:
+      application/json:
+        schema:
+          properties:
+            status:
+              type: integer
+              example: 409
+            message:
+              type: string
+              example: ConflictError
+            data:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Conflict. Email already in use!
+  '500':
+    $ref: ../../components/responses/500.yaml
